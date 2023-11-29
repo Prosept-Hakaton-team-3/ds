@@ -47,8 +47,8 @@ class ProseptDescriptionSearcher():
         try:
             if mode is None:
                 self.dealer = pd.read_sql('SELECT * FROM marketing_product_dealer', data_connect_or_path)
-                self.price = pd.read_sql('SELECT * from marketing_dealer_price', data_connect_or_path)
-                self.product = pd.read_sql('SELECT * from marketing_product', data_connect_or_path)
+                self.price = pd.read_sql('SELECT product_key, product_name, dealer_id from marketing_dealer_price', data_connect_or_path)
+                self.product = pd.read_sql('SELECT name from marketing_product', data_connect_or_path)
                 self.product_dealer_key = pd.read_sql('SELECT * from marketing_product_dealer_key', data_connect_or_path)
             elif mode == 'csv':
                 self.dealer = pd.read_csv(os.path.join(data_connect_or_path,'assets','marketing_dealer.csv'),
