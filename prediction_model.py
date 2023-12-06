@@ -11,6 +11,13 @@ from sentence_transformers import SentenceTransformer, util
 
 class ProseptDescriptionSearcher:
 
+    """
+    Searching for a product in the database using existing description queries.
+    
+    :param number_of_matching: Parameter responsible for the number of searches for matching options
+    :param cache_embeddings_update: Save product embeddings. Overwrites the current data.
+    """
+
     def __init__(
             self,
             number_of_matching: Optional[int] = 5,
@@ -111,7 +118,16 @@ class ProseptDescriptionSearcher:
             query_dictionary: Dict[str, Dict],
             number_of_matching: Optional[int] = 5,
     ):
-        self.result_dict = {}
+        """
+            Method for finding n product values by description.
+            
+            :param query_dictionary: Dict with target description
+            :param number_of_matching : Parameter responsible for the number of searches for matching options
+
+            Return
+            ------------
+            pandas.core.indexes.numeric.Int64Index
+        """
 
         try:
             self.number_of_matching = number_of_matching
