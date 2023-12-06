@@ -40,51 +40,27 @@
 #### Инициализация
 
 Параметры:
-1. `data_connect_or_path`: обязательный параметр. Отвечает за получение данных. Подключение к базе данных или путь для загрузки данных из CSV-файла;
-2. `mode`: Чтение из базы данных `SQL` или `CSV`-файла. Варианты: `'csv'` или `None`. `None` - дефолтное значение, подключение к БД;
-3. `model_name_or_path`: Путь к сохраненной модели `SentenceTransformer`;
-4. `number_of_matching`: Количество вариантов сопоставления;
-5. `cache_embeddings_update`: Флаг для сохранения векторных представлений продуктов. `False` - дефолтное значение. Стоит активировать, если данные изменились.
 
-Инициализация:
+1. number_of_matching: Количество вариантов сопоставления (стандартное количество - 5).
+2. cache_embeddings_update: Позволяет кэшировать эмбеддинги продукции. Принимает значения True или False.
 
-1. Загружается модель;
-2. Определяются основные параметры;
-3. Загружаются данные в формате `БД` или `csv`;
-4. Выполняются функции очистки, соединение всей информации в один df;
-5. Генерация embeddings;
 
-Использование модели:
+#### Сопоставление
 
-* Получение вариантов сопоставления обеспечивает функция `make_predict`:
+Сопоставление происходит с помощью вызова функции match_product, после инициалзиции модели.
+Запрос выглядит следующим образом:
 
-    Параметры:
-    `descriptions_to_match`: Список описаний для поиска. 
-    `number_of_matching`: Количество вариантов сопоставления.
+```python 
+query = {
+    'target': {
+        'product_name': 'Имя товара с сайта дилера'
+    }
+}
 
-    Return:
-    `dict`: Формат {'Запрос' : {id_1 : наименование_товара, id_2 : наименование_товара}}
-    Ранжирует продукты на основе схожести и возвращает словарь с соответствующими идентификаторами и именами продуктов.
+results = searcher.match_product(query, number_of_matching=3)
+```
 
-* Получение качества модели путём расчёта метрики обеспечивает `calculate_recall_at_n`:
+Функция возвращает `id` товара из базы данных Prosept.
 
-    Создает аттрибут класса `average_recall`, который представляет собой числовую оценку модели.
-
-Пример:
-
-```python
-from prosept_product import ProseptDescriptionSearcher
-
-# Инициализация объекта ProseptDescriptionSearcher
-prosept = ProseptDescriptionSearcher(data_connect_or_path=data_path, mode='csv')
-
-# Расчет recall для топ-N рекомендаций (по умолчанию N=5)
-prosept.calculate_recall_at_n(number_of_matching=5)
-
-# Make predictions based on descriptions
-descriptions_to_match = ["Description 1", "Description 2", ...]
-
-# Получение результатов предсказания в виде словаря
-predictions = description_searcher.make_predict(descriptions_to_match)
 ```
 
