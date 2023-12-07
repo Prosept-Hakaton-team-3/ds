@@ -28,7 +28,7 @@ class ProseptDescriptionSearcher:
                 os.path.join(os.getcwd(), 'model')
             )
         except:
-            self.model = SentenceTransformer('LaBSE')
+            self.model = SentenceTransformer('distiluse-base-multilingual-cased-v1')
 
         self.number_of_matching = number_of_matching
         self.cache_embeddings_update = cache_embeddings_update
@@ -42,7 +42,6 @@ class ProseptDescriptionSearcher:
                 __file__
             ).parent.parent / 'data/marketing_product.csv',
             sep=';',
-            index_col='id'
         )
         self.clean_product()
 
