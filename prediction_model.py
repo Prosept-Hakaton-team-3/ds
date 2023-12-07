@@ -42,6 +42,7 @@ class ProseptDescriptionSearcher:
                 __file__
             ).parent.parent / 'data/marketing_product.csv',
             sep=';',
+            index_col='id'
         )
         self.clean_product()
 
